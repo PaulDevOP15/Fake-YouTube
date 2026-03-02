@@ -1,34 +1,526 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+/* Global reset: font, colors, spacing for all elements */
 * {
+    font-family: "Roboto", "Arial", sans-serif;
+    color: white;
+    background: #030303;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Page base: remove horizontal scroll on the whole page */
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
 }
 
-nav {
+/* Top navigation bar */
+.navbar {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-
+    align-items: center;
+    height: 56px;
+    padding: 0 16px;
+    position: sticky;
+    top: 0;
+    background: black;
+    z-index: 10;
 }
 
-.button-group {
-    border-bottom: 1px solid black;
-
-}
-
-aside {
-    height: 100%;
-    float: left;
-}
-
-main {
+/* Groups inside navbar: left (menu+logo), middle (search), right (icons) */
+.navbar section {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Hamburger menu icon in navbar */
+.navbar .menu {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+/* YouTube-style logo image */
+.navbar .logo {
+    height: 45px;
+    fill: white;
+}
+
+
+/* Search bar container in the middle of navbar */
+#searchbar {
+    display: flex;
+    align-items: center;
+    max-width: 600px;
+    flex: 0 1 600px;
+}
+
+/* Text input for search */
+#searchbar #search {
+    flex: 1;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid #d3d3d3;
+    border-right: none;
+    border-radius: 16px 0 0 16px;
+    font-size: 14px;
+}
+
+/* Blue border when search input is focused */
+#searchbar #search:focus {
+    outline: none;
+    border-color: #1c62b9;
+}
+
+/* Search button with magnifying glass icon */
+#searchbar button {
+    height: 32px;
+    width: 64px;
+    border: 1px solid #d3d3d3;
+    border-radius: 0 16px 16px 0;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Icon inside the search button */
+#searchbar button .material-icons {
+    margin-right: 0;
+    color: #606060;
+    font-size: 20px;
+}
+
+/* Microphone icon on the right of the search bar */
+#searchbar .material-icons {
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+/* Main layout container: sidebar + video content */
+.mainbody {
+    display: flex;
+    align-items: flex-start;
+    background: #f9f9f9;
+}
+
+/* Left sidebar column */
+.categories {
+    width: 240px;
+    height: calc(100vh - 56px);
+    background: white;
+    overflow-y: auto;
+    position: sticky;
+    top: 56px;
+}
+/* Group of related sidebar links (Home, Subscriptions, etc.) */
+.category-section {
+    border-bottom: 1px solid #ccc;
+    margin-top: 10px;
+}
+.category-section .category:last-child {
+    margin-bottom: 10px;
+}
+/* Small heading text above some sidebar groups */
+.category_heading {
+    margin: 10px 0px 10px 25px;
+    color: #f1f1f1;
+    font-size: 18px;
+    font-weight: 500;
+}
+/* Single clickable row in the sidebar */
+.category {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 24px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* Hover style for sidebar rows */
+.category:hover {
+    background: rgb(255 255 255 / 10%);
+}
+
+/* Style for the currently active sidebar row */
+.category.active {
+    background: #e5e5e5;
+    font-weight: 500;
+}
+
+
+/* Default style for all Material Icons */
+.material-icons {
+    color: hsl(0, 100%, 100%);
+    margin-right: 10px;
+}
+
+/* Extra spacing for icons inside sidebar rows */
+.category i {
+    margin-right: 24px;
+}
+/* Padding around the footer section inside the sidebar */
+.category .footer-section{
+    padding: 25px;
+}
+/* Container for terms / privacy / etc. links under sidebar */
+.footer-section {
+    margin-top: 10px;
+    margin-bottom: 12px;
+}
+/* Each text link inside the footer section */
+.footer-section span {
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 5px;
+    color: #606060;
+    cursor: pointer;
+}
+/* Copyright line at the bottom of sidebar */
+.copyright {
+    color: #606060;
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/* Right side content area that holds filters + videos */
+.content {
+    flex: 1;
+    padding: 24px 24px 40px;
+    min-height: calc(100vh - 56px);
+}
+
+/* Row of filter buttons above the videos */
+.filter-chips {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
+}
+
+/* Individual filter button "chips" */
+.chip {
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: 1px solid #d3d3d3;
+    background: #272727;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+
+/* Grid layout for all video cards */
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+/* A single video card (thumbnail + text) */
+.video-card {
+    cursor: pointer;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: border-color 0.15s ease-out, background 0.15s ease-out;
+}
+
+/* Thumbnail box for video (16:9 rectangle) */
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #d3d3d3;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+/* Hover effect on video card: border + darker background */
+.video-card:hover {
+    border-color: #3f3f3f;
+    background: #181818;
+}
+
+/* Make the whole card clickable like a single link */
+.video-card a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Wrapper around thumbnail + hover preview iframe */
+.video-preview {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Still image thumbnail inside preview wrapper */
+.video-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Hidden iframe that plays preview when hovering the card */
+.preview-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-out;
+}
+
+/* Fade in preview video when user hovers the card */
+.video-card:hover .preview-frame {
+    opacity: 1;
+}
+
+/* Row below thumbnail: channel avatar + text */
+.video-info {
+    display: flex;
+    gap: 12px;
+}
+
+/* Small round channel picture next to each video */
+.channel-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #bdbdbd;
+    flex-shrink: 0;
+}
+
+.channel-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Text block next to the channel avatar */
+.video-text {
+    font-size: 14px;
+    color: #030303;
+}
+
+/* Main video title line */
+.video-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+/* Smaller grey line with views and time */
+.video-meta {
+    font-size: 12px;
+    color: #606060;
+}
+
+/* Dark theme refinements: override light defaults for dark YouTube look */
+body {
+    background: #030303;
+    color: #ffffff;
+}
+
+.navbar {
+    background: #030303;
+}
+
+.navbar img {
+    background: transparent;
+}
+
+.navbar .menu {
+    filter: invert(1);
+}
+
+.noty-icon {
+    filter: invert(1);
+}
+
+.mic-icon {
+    border: 1px solid #555555;
+    border-radius: 50%;
+    padding: 6px;
+    background: #181818;
+}
+
+.categories {
+    background: #0f0f0f;
+    border-right: 1px solid #000000;
+}
+
+.category-section {
+    border-bottom: 1px solid #303030;
+}
+
+.category_heading {
+    color: #f1f1f1;
+}
+
+.category {
+    border-left: 4px solid transparent;
+}
+
+.category:hover {
+    background: #272727;
+}
+
+.category.active {
+    background: #272727;
+    border-left-color: #ffffff;
+}
+
+.material-icons {
+    color: hsl(0deg 0% 94.51%);
+}
+
+.content {
+    background: #030303;
+}
+
+.chip {
+    border: 1px solid #3f3f3f;
+    background: #272727;
+}
+
+.chip.active {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+.thumbnail {
+    background: #3f3f3f;
+}
+
+.video-text {
+    color: #f1f1f1;
+}
+
+.video-meta {
+    color: #aaaaaa;
+}
+
+/* Responsive layout: adjust for smaller screens */
+@media (max-width: 1200px) {
+    .content {
+        padding: 16px;
+    }
+
+    .videos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+/* Tablets / small laptops */
+@media (max-width: 900px) {
+    .mainbody {
+        flex-direction: column;
+    }
+
+    .categories {
+        position: static;
+        width: 100%;
+        height: auto;
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .category-section {
+        border-bottom: none;
+        border-right: 1px solid #303030;
+    }
+
+    .content {
+        padding: 16px;
+    }
+}
+
+/* Small tablets / big phones */
+@media (max-width: 600px) {
+    .categories {
+        display: none;
+    }
+
+    #searchbar {
+        max-width: none;
+    }
+
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 12px;
+    }
+}
+
+/* Small phones (e.g. iPhone 12) extra tweaks */
+@media (max-width: 430px) {
+    .navbar {
+        padding: 0 8px;
+    }
+
+    .navbar section {
+        gap: 8px;
+    }
+
+    .navbar .logo {
+        height: 24px;
+    }
+
+    #searchbar {
+        max-width: none;
+        margin: 0 4px;
+    }
+
+    #searchbar #search {
+        font-size: 12px;
+        height: 30px;
+    }
+
+    #searchbar button {
+        width: 48px;
+        height: 30px;
+    }
+
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .content {
+        padding: 8px;
+    }
+}
+
+/* Scrollbar styling for dark theme */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #202020;
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #303030;
 }
